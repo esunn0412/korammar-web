@@ -1,18 +1,33 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
-
-export default function Home() {
+const Home = () =>{
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setOutputText(`수정된 텍스트: ${inputText}`);
+    try {
+      const response = await fetch('/api/correct', {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({'text': inputText})
+      });
+      const data= await response.json();
+      console.log(data);
+      setOutputText(data.corrected_text);
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
   };
-//bg-gradient-to-br from-cyan-100 to-teal-100
-//bg-cover bg-center bg-no-repeat bg-blend-overlay
+
+
+
   return (
     <div className="min-h-screen bg-white py-4 px-16">
       <header className="flex justify-between items-center mb-2">
@@ -20,30 +35,38 @@ export default function Home() {
           <Image src="/qfm.svg" alt="Logo" width={150} height={100} />
           <span className="text-lg text-black font-semibold">우리말 바른말</span>
         </div>
-        <button className="bg-teal-500 hover:cursor-pointer text-white px-4 py-2 rounded-full text-sm">
-          어디서나 사용해보세요 - 설치하기
-        </button>
+        <Link href="https://google.com" className="self-center">
+          <button className="bg-teal-500 hover:cursor-pointer text-white px-4 py-2 rounded-full text-sm">
+            어디서나 사용해 보세요 - 설치하기
+          </button>
+        </Link>
       </header>
 
       <main className="max-w-6xl mx-auto">
-        <div className="bg-[url('/background.png')] bg-cover rounded-xl shadow-lg pt-16 p-6 px-16 mb-8">
+        <div className="bg-[url('/background.png')] bg-left rounded-xl shadow-lg pt-16 p-6 px-16 mb-8">
           <h1 className="text-4xl font-bold mb-8 text-center">
             <span className="text-black">더이상 </span>
             <span className="text-red-400">맞춤법</span>
-            <span className="text-black">으로 스트레스 받지 마세요</span>
+            <span className="text-black">으로 스트레스받지 마세요</span>
           </h1>
           <form onSubmit={handleSubmit} className="flex flex-col space-y-4 text-sm">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <textarea
-                  placeholder="교정을 원하는 문장이나 문단을 입력해주세요"
+                  placeholder="교정을 원하는 문장이나 문단을 입력해 주세요"
                   className="w-full h-64 p-2 border-teal-500 border-2 rounded-md resize-none focus:outline-none text-blue-950"
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleSubmit(e);
+                    }
+                  }}
                 />
               </div>
               <div>
-                <div className={`w-full h-64 p-2 bg-white border-teal-500 border-2 rounded-md text-gray-400 ${outputText ? 'text-blue-950' : 'text-gray-400'}`}>
+                <div className={`w-full h-64 p-2 bg-white border-teal-500 border-2 rounded-md ${outputText ? 'text-blue-950' : 'text-gray-400'}`}>
                   {outputText ? outputText:"이곳에 결과가 표시됩니다"}
                 </div>
               </div>
@@ -81,10 +104,14 @@ export default function Home() {
 
       <footer className="my-12 flex flex-col justify-center pb-14">
         <Image src="/qfm.svg" alt="Logo" width={200} height={100} className="self-center mb-4"/>
-        <button className="bg-teal-500 text-white px-4 py-2 rounded-full text-sm  self-center">
-          어디서나 사용해보세요 - 설치하기
-        </button>
+        <Link href="https://google.com" className="self-center">
+          <button className="bg-teal-500 text-white px-4 py-2 rounded-full text-sm">
+            어디서나 사용해 보세요 - 설치하기
+          </button>
+        </Link>
       </footer>
     </div>
   );
-}
+};
+
+export default Home;
