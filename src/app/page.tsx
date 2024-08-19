@@ -44,7 +44,7 @@ const Home = () =>{
       <main className="w-full">
         <div className="bg-[url('/background.svg')] bg-cover p-6 px-16 mb-8">
           <h1 className="text-4xl font-bold my-14 text-center">
-            <span className="text-[#081F5C]">더이상 </span>
+            <span className="text-[#081F5C]">더 이상 </span>
             <span className="text-[#EF8F00]">맞춤법</span>
             <span className="text-[#081F5C]">으로 스트레스받지 마세요</span>
           </h1>
