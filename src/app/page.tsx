@@ -62,7 +62,7 @@ const Home = () =>{
                     }
                   }}
                 />
-                <div className={`min-w-[480px] h-64 p-4 bg-white rounded-md shadow-box ${outputText ? 'text-blue-950' : 'text-gray-400'}`}>
+                <div className={`min-w-[480px] h-64 p-4 bg-white rounded-md shadow-box overflow-y-auto ${outputText ? 'text-blue-950' : 'text-gray-400'}`}>
                   {outputText ? outputText:"이곳에 결과가 표시됩니다"}
                 </div>
             </div>
