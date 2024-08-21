@@ -65,12 +65,19 @@ const Home = () =>{
             <div className="flex justify-center space-x-4 flex-row w-full mb-4">
                 <textarea
                   placeholder="교정을 원하는 문장이나 문단을 입력해 주세요"
-                  className="min-w-[480px] h-64 p-4 rounded-md resize-none focus:outline-none text-blue-950 shadow-box"
+                  className="min-w-[480px] h-64 p-4 rounded-md resize-none focus:outline-none bg-white text-blue-950 shadow-box"
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                 />
-                <div className={`min-w-[480px] h-64 p-4 bg-white rounded-md shadow-box overflow-y-auto ${outputText ? 'text-blue-950' : 'text-gray-400'}`}>
-                  {outputText ? outputText:"이곳에 결과가 표시됩니다"}
+                <div className="relative min-w-[480px] h-64 shadow-box rounded-md">
+                  <div className={`w-full h-full p-4 rounded-md overflow-y-auto ${isLoading ? 'blur-[2px]' : 'bg-white'} ${outputText ? 'text-blue-950' : 'text-gray-400'}`}>
+                    {outputText ? outputText:"이곳에 결과가 표시됩니다"}
+                  </div>
+                  {isLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="bg-[#334EAD] loading loading-dots loading-lg"></span>
+                    </div>
+                  )}
                 </div>
             </div>
             <div className="mr-[220px] absolute bottom-[-5px] translate-y-full self-center">
