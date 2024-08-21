@@ -7,11 +7,19 @@ import '@/styles/globals.css';
 const Home = () =>{
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement;
+    const formAction = submitter.getAttribute('formAction');
+    console.log(formAction);
+    const endpoint = formAction === '/correct' ? 'api/correct' : 'api/edit';
+    console.log(endpoint);
     try {
-      const response = await fetch('/api/correct', {
+      const response = await fetch(endpoint, {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json'
@@ -20,10 +28,12 @@ const Home = () =>{
       });
       const data= await response.json();
       console.log(data);
-      setOutputText(data.corrected_text);
+      setOutputText(data.corrected_text || data.edited_text);
     } catch (error) {
       console.error('Error:', error);
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -35,43 +45,50 @@ const Home = () =>{
           <span className="text-base text-black font-bold">우리말 바른말</span>
         </div>
         <Link href="https://google.com" className="self-center">
-          <button className="bg-[#334EAD] text-white px-6 py-2 rounded-full text-sm">
+          <button className="bg-[#334EAD] text-white px-6 py-2 rounded-sm text-sm">
             설치하기
           </button>
         </Link>
       </header>
 
       <main className="w-full">
-        <div className="bg-[url('/background.svg')] bg-cover p-6 px-16 mb-8">
-          <h1 className="text-4xl font-bold my-14 text-center">
+        <div className="bg-[url('/background1.svg')] bg-cover p-6 px-16 mb-8 pb-2">
+          <h1 className="text-4xl font-bold mt-8 mb-4 text-center">
             <span className="text-[#081F5C]">더 이상 </span>
             <span className="text-[#EF8F00]">맞춤법</span>
-            <span className="text-[#081F5C]">으로 스트레스받지 마세요</span>
+            <span className="text-[#081F5C]">으로</span>
           </h1>
-          <form onSubmit={handleSubmit} className="flex flex-col space-y-4 text-sm m-4">
+          <h1 className="text-4xl font-bold mb-8 text-center">
+            <span className="text-[#081F5C]">스트레스 받지 마세요</span>
+          </h1>
+          <form onSubmit={handleSubmit} className="relative flex flex-col space-y-4 text-sm m-4">
             <div className="flex justify-center space-x-4 flex-row w-full mb-4">
                 <textarea
                   placeholder="교정을 원하는 문장이나 문단을 입력해 주세요"
                   className="min-w-[480px] h-64 p-4 rounded-md resize-none focus:outline-none text-blue-950 shadow-box"
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      handleSubmit(e);
-                    }
-                  }}
                 />
                 <div className={`min-w-[480px] h-64 p-4 bg-white rounded-md shadow-box overflow-y-auto ${outputText ? 'text-blue-950' : 'text-gray-400'}`}>
                   {outputText ? outputText:"이곳에 결과가 표시됩니다"}
                 </div>
             </div>
-            <button
-              type="submit"
-              className="self-center bg-[#334EAD] text-white px-6 py-2 rounded-full text-sm"
-            >
-              문장 수정하기 →
-            </button>
+            <div className="mr-[220px] absolute bottom-[-5px] translate-y-full self-center">
+              <button
+                type="submit"
+                formAction="/correct"
+                className="text-[#334EAD] bg-white border-[#334EAD] border px-5 py-2 rounded-sm text-sm mr-2"
+              >
+                맞춤법 수정
+              </button>
+              <button
+                type="submit"
+                formAction="/edit"
+                className="bg-[#334EAD] text-white px-5 py-2 rounded-sm text-sm"
+              >
+                문장 수정
+              </button>
+            </div>
           </form>
         </div>
 å
@@ -83,7 +100,7 @@ const Home = () =>{
               <div className="h-full flex justify-end">
                 <div className="bg-[#334EAD] w-40 font-semibold text-sm p-4 flex rounded-lg h-40">
                   <div className="flex flex-col justify-end">
-                    <p>맜춤뻡</p> 
+                    <p>맛춤뻡</p> 
                     <p>툴리면 부끄럽짠아?</p>
                   </div>
                 </div>
@@ -108,7 +125,7 @@ const Home = () =>{
 
       <footer className="my-12 flex flex-col justify-center pb-14">
         <Link href="https://google.com" className="self-center">
-          <button className="bg-[#334EAD] text-white px-6 py-2 rounded-full text-sm">
+          <button className="bg-[#334EAD] text-white px-6 py-2 rounded-sm text-sm">
             설치하기
           </button>
         </Link>
