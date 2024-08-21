@@ -69,8 +69,8 @@ const Home = () =>{
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                 />
-                <div className="relative min-w-[480px] h-64 shadow-box rounded-md">
-                  <div className={`w-full h-full p-4 rounded-md overflow-y-auto ${isLoading ? 'blur-[2px]' : 'bg-white'} ${outputText ? 'text-blue-950' : 'text-gray-400'}`}>
+                <div className="relative w-[480px] h-64 shadow-box resize-none rounded-md overflow-y-auto">
+                  <div className={`w-full h-full p-4 overflow-y-auto rounded-md ${isLoading ? 'blur-[2px]' : 'bg-white'} ${outputText ? 'text-blue-950' : 'text-gray-400'}`}>
                     {outputText ? outputText:"이곳에 결과가 표시됩니다"}
                   </div>
                   {isLoading && (
