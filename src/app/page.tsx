@@ -39,9 +39,9 @@ const Home = () =>{
 
   return (
     <div className="min-w-[1100px] overflow-y-scroll bg-white py-4">
-      <header className="flex justify-between items-center mb-2 px-8">
+      <header className="flex justify-between items-center mb-2 px-12">
         <div className="flex items-center justify-between">
-          <Image src="/qfm.svg" alt="Logo" width={120} height={100} className="m-0 p-0"/>
+          <Image src="/logo.png" alt="Logo" width={100} height={100} className="m-0 p-0"/>
           <span className="text-base text-black font-bold">Good Hangul</span>
         </div>
         <Link href="https://google.com" className="self-center">
@@ -106,7 +106,7 @@ const Home = () =>{
             <div className="flex flex-row justify-center space-x-4 px-16 max-w-[1000px]">
               <div className="h-full flex justify-end">
                 <div className="bg-[#334EAD] w-40 font-semibold text-sm p-4 flex rounded-lg h-40">
-                  <div className="flex flex-col justify-end">
+                  <div className="flex flex-col justify-end text-white">
                     <p>맛춤뻡</p> 
                     <p>툴리면 부끄럽짠아?</p>
                   </div>
