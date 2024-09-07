@@ -42,7 +42,7 @@ const Home = () =>{
       <header className="flex justify-between items-center mb-2 px-8">
         <div className="flex items-center justify-between">
           <Image src="/qfm.svg" alt="Logo" width={120} height={100} className="m-0 p-0"/>
-          <span className="text-base text-black font-bold">우리말 바른말</span>
+          <span className="text-base text-black font-bold">Good Hangul</span>
         </div>
         <Link href="https://google.com" className="self-center">
           <button className="bg-[#334EAD] text-white px-6 py-2 rounded-sm text-sm">
